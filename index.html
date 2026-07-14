@@ -1186,7 +1186,7 @@
 
             addLog(`✦ 終端戰術面板連線完成，雷達氣象動態同步成功！`, 'sys');
             addLog(`► 主戰機型: ${p1.name} VS ${p2.name}`, 'sys');
-            addLog(`► 戰術博弈: 雙方機體晶片已校正，開始全自動極限演算。`, 'sys');
+            addLog(`► 戰術佈置: 雙方機體晶片已校正，開始全自動極限演算。`, 'sys');
 
             startLoop();
         }
@@ -1244,18 +1244,18 @@
 
             // 1. 必殺技釋放
             if (isUltTriggered) {
-                let baseUltDmg = (attacker.str * 8) + (attacker.vit * 4) + 50;
+                let baseUltDmg = (attacker.str * 4) + (attacker.vit * 2) + 80;
                 baseUltDmg = baseUltDmg * activeWeatherEffects.dmgMultiplier;
 
                 const defBlock = (defender.end * 2.5) * activeWeatherEffects.armorDebuffPercent;
                 const ultBlock = defBlock * 0.5;
 
-                let finalUltDmg = Math.max(25, baseUltDmg - ultBlock);
+                let finalUltDmg = Math.max(20, baseUltDmg - ultBlock);
                 finalUltDmg = Math.floor(finalUltDmg * (0.95 + Math.random() * 0.1));
 
                 defender.hp = Math.max(0, defender.hp - finalUltDmg);
 
-                addLog(`🔥 <b>[ULTIMATE OVERLOAD]</b> [${attacker.name}] 機體陷入紅色過載，強制激發核心功率，釋放必殺技 <b>【${attacker.ultName}】</b> 破防重轟！造成 <b>${finalUltDmg}</b> 點毀滅性打擊！`, 'ult');
+                addLog(`🔥 <b>[ULTIMATE OVERLOAD]</b> [${attacker.name}] 機體陷入過載，強制激發核心功率，釋放必殺技 <b>【${attacker.ultName}】</b> ！造成 <b>${finalUltDmg}</b> 點毀滅性打擊！`, 'ult');
                 triggerShake(defCardId);
 
                 if (activeWeatherEffects.extraShockDamage && Math.random() < 0.5) {
@@ -1280,9 +1280,9 @@
                 const actualEvade = Math.max(5, Math.min(75, evadeChance));
 
                 if (Math.random() * 100 < actualEvade) {
-                    addLog(`💨 [${attacker.name}] 射出了高速電漿彈，但被 [${defender.name}] 在臨界一刻閃避！`, 'evade');
+                    addLog(`💨 [${attacker.name}] 射出了高速電漿彈，但被 [${defender.name}] 閃開了！`, 'evade');
                 } else {
-                    let damage = ((attacker.str * 4) + 10) * activeWeatherEffects.dmgMultiplier;
+                    let damage = ((attacker.str * 2) + 35) * activeWeatherEffects.dmgMultiplier;
 
                     const baseCritChance = attacker.agi * 1.5 + 5;
                     const actualCritChance = baseCritChance * activeWeatherEffects.critDebuffPercent;
@@ -1293,7 +1293,7 @@
                     }
 
                     const blockValue = (defender.end * 2.5) * activeWeatherEffects.armorDebuffPercent;
-                    let finalDamage = Math.max(8, damage - blockValue);
+                    let finalDamage = Math.max(5, damage - blockValue);
                     finalDamage = Math.floor(finalDamage * (0.9 + Math.random() * 0.2));
 
                     defender.hp = Math.max(0, defender.hp - finalDamage);
@@ -1301,7 +1301,7 @@
                     if (isCrit) {
                         addLog(`💥 [CRITICAL IMPACT] [${attacker.name}] 武器功率突增，精準命中防護死角，對 [${defender.name}] 造成 ${finalDamage} 點破壞！`, 'p2');
                     } else {
-                        addLog(`⚔ [${attacker.name}] 的主砲撕裂夜空，對 [${defender.name}] 造成 ${finalDamage} 點結構損傷。`, atkColor);
+                        addLog(`⚔ [${attacker.name}] 的主砲發射，對 [${defender.name}] 造成 ${finalDamage} 點結構損傷。`, atkColor);
                     }
 
                     triggerShake(defCardId);
